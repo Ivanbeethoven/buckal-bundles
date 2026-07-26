@@ -205,9 +205,9 @@ def normalize_project_relative_tool_paths(env: Dict[str, str]) -> None:
         if value is None or os.path.isabs(value):
             continue
 
-        candidate = os.path.join(TOOL_CWD, value)
-        if os.path.exists(candidate):
-            env[key] = os.path.abspath(candidate)
+        parts = Path(value).parts
+        if parts and parts[0] == "buck-out":
+            env[key] = os.path.abspath(os.path.join(TOOL_CWD, value))
 
 
 class Args(NamedTuple):
