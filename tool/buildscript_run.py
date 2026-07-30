@@ -323,10 +323,8 @@ def main() -> None:  # noqa: C901
             if path.startswith(TOOL_CWD):
                 relative_path = path[len(TOOL_CWD) :]
                 flags += f"-L{kind}{relative_path}\n"
-            elif not os.path.isabs(path):
-                flags += f"-L{kind}{path}\n"
             else:
-                # Disregard absolute link search paths outside the workspace.
+                # Disregard link-search paths that cannot be resolved from the project root.
                 pass
             continue
         # *BUCKAL-ONLY* metadata processing
