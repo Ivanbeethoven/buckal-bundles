@@ -182,9 +182,10 @@ def _make_cc_shim(ctx: AnalysisContext, name: str, cmd: cmd_args) -> cmd_args:
                     ),
                     # For linker, prepend every argument with `-Wl,`. Without this,
                     # when using Clang for the linker, arguments are intercepted
-                    # by Clang instead of making it to the actual linker.
-                    # >> clang++: error: unknown argument: '--as-needed'
-                    format = '{} "${@/#/-Wl,}"\n' if name == "__ld_shim" else '{} "$@"\n',
+                    # by Clang instead of making it to the actual linker. Suppress
+                    # Clang's implicit startup objects because the original linker
+                    # invocation already contains them.
+                    format = '{} -nostdlib "${@/#/-Wl,}"\n' if name == "__ld_shim" else '{} "$@"\n',
                 ),
             ],
             is_executable = True,
