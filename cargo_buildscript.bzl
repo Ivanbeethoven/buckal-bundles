@@ -395,7 +395,7 @@ def _cargo_buildscript_impl(ctx: AnalysisContext) -> list[Provider]:
                 default_output = rustc_flags,
                 # Keep the generated native artifacts as hidden inputs when this
                 # response file is consumed through $(location ...[rustc_flags]).
-                other_outputs = [out_dir],
+                other_outputs = [out_dir, cwd],
             )],
             "metadata": [DefaultInfo(default_output = metadata)],
         },
